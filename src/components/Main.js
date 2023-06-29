@@ -1,3 +1,5 @@
+import PopupWithForm from "./PopupWithForm";
+
 function Main () {
 
   function handleEditAvatarClick() {
@@ -49,19 +51,13 @@ function Main () {
           </template>
         </section>
       </main>
-      <div className="popup editPopup">
-        <div className="popup__container">
-          <button type="button" className="popup__close-button"></button>
-          <h2 className="popup__title">Редактировать профиль</h2>
-            <form name="profileInfo" className="popup__form" novalidate>
-              <input id="name-input" name="name" type="text" placeholder="Имя" className="popup__text popup__text_type_name" required minlength="2" maxlength="40"/>
-              <span className="name-input-error popup__text-error"></span>
-              <input id="interests-input" name="interests" type="text" placeholder="Деятельность" className="popup__text popup__text_type_interests" required minlength="2" maxlength="200"/>
-              <span className="interests-input-error popup__text-error"></span>
-              <button type="submit" className="popup__submit-btn">Сохранить</button>
-            </form>
-    </div>
-      </div>
+      <PopupWithForm title={"Редактировать профиль"} name={"profileInfo"}>
+        <input id="name-input" name="name" type="text" placeholder="Имя" className="popup__text popup__text_type_name" required minlength="2" maxlength="40"/>
+        <span className="name-input-error popup__text-error"></span>
+        <input id="interests-input" name="interests" type="text" placeholder="Деятельность" className="popup__text popup__text_type_interests" required minlength="2" maxlength="200"/>
+        <span className="interests-input-error popup__text-error"></span>
+        <button type="submit" className="popup__submit-btn">Сохранить</button>
+      </PopupWithForm>
       <div className="popup addPopup">
         <div className="popup__container">
           <button type="button" className="popup__close-button"></button>
