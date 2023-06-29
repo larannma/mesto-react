@@ -1,8 +1,11 @@
-function PopupWithForm(props) {
+import React from "react";
+
+function PopupWithForm({isOpen, onClose, ...props}) {
+
   return (
-    <div className="popup editPopup">
+    <div className={`popup ${props.styleClass}Popup ${isOpen ? "popup_opened" : ""}`}>
       <div className="popup__container">
-        <button type="button" className="popup__close-button"></button>
+        <button onClick={onClose} type="button" className="popup__close-button"></button>
         <h2 className="popup__title">{props.title}</h2>
           <form name={props.name} className="popup__form" novalidate>
             {props.children}
