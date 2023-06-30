@@ -14,7 +14,8 @@ function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [cards, setCards] = React.useState([]);
-  const [selectedCard, setSelectedCard] = React.useState('')
+  const [selectedCard, setSelectedCard] = React.useState({});
+  const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
 
   React.useEffect(() => {
     api.getCards().then((res) => {
@@ -29,6 +30,7 @@ function App() {
   }, []);
 
   function handleCardClick(cardInfo) {
+    setImagePopupOpen(true);
     setSelectedCard(cardInfo);
   }
 
@@ -48,6 +50,8 @@ function App() {
     setAddPlacePopupOpen(false);
     setEditProfilePopupOpen(false);
     setEditAvatarPopupOpen(false);
+    setImagePopupOpen(false);
+    setSelectedCard('');
   }
 
   return (
@@ -74,7 +78,7 @@ function App() {
           <span className="photo-link-input-error popup__text-error"></span>
           <button type="submit" className="popup__submit-btn">Создать</button>
         </PopupWithForm>
-        <ImagePopup onClose={closeAllPopups} onCardClick={handleCardClick} card={selectedCard}/>
+        <ImagePopup onClose={closeAllPopups} isOpen={isImagePopupOpen} card={selectedCard}/>
         <PopupWithForm isOpen={false} onClose={closeAllPopups} title={"Вы уверены?"} name={"cardInfo"} styleClass={"confirm"}>
         <button type="submit" className="popup__submit-btn popup__confirm-btn">Да</button>
         </PopupWithForm>
