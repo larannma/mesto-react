@@ -1,7 +1,7 @@
 import React from "react";
 import api from "../utils/api"
 
-function Main ({onEditProfile, onAddPlace, onEditAvatar}) {
+function Main ({onEditProfile, onAddPlace, onEditAvatar, ...props}) {
   
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
@@ -13,7 +13,7 @@ function Main ({onEditProfile, onAddPlace, onEditAvatar}) {
       setUserDescription(res.about);
       setUserName(res.name);
     })
-  }, [])
+  }, []);
 
   return (
     <>
@@ -34,19 +34,7 @@ function Main ({onEditProfile, onAddPlace, onEditAvatar}) {
           <button type="button" onClick={onAddPlace} aria-label="Кнопка добавления нового поста" className="profile__add-button"></button>
         </section>
         <section aria-label="Посты в профиле" className="elements root__section">
-          <template id="card">
-            <div className="element">
-              <button aria-label="Кнопка корзины" type="button" className="element__trash"></button>
-              <img src="./images/juk.png" alt="Жук" className="element__image" role="button"/>
-              <div className="element__description">
-                <h2 className="element__name">Опасный зверь</h2>
-                <div className="element__extra-info">
-                  <button aria-label="Кнопка лайка" type="button" className="element__like-ico"></button>
-                  <p className="element__like-count">0</p>
-                </div>
-              </div>
-            </div>
-          </template>
+          {props.children}
         </section>
       </main>
     </>
