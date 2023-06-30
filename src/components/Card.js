@@ -5,7 +5,7 @@ function Card({onCardClick, ...props}) {
   }
   
   return (
-    <div key={props.id} className="element">
+    <div className="element">
       <button aria-label="Кнопка корзины" type="button" className="element__trash"></button>
       <img src={props.url} alt={props.name} className="element__image" role="button" onClick={handleClick}/>
       <div className="element__description">

@@ -16,28 +16,26 @@ function Main ({onEditProfile, onAddPlace, onEditAvatar, ...props}) {
   }, []);
 
   return (
-    <>
-      <main>
-        <section className="profile root__section">
-          <div className="profile__base">
-            <div type="button" className="profile__overlay-container" onClick={onEditAvatar}>
-              <img src={userAvatar} className="profile__avatar"/>
-            </div>
-            <div className="profile__info">
-              <div className="profile__extra-info">
-                <h1 className="profile__title">{userName}</h1>
-                <button type="button" onClick={onEditProfile} aria-label="Кнопка редактирования профиля" className="profile__edit-button"></button>
-              </div>
-              <p className="profile__subtitle">{userDescription}</p>
-            </div>
+    <main>
+      <section className="profile root__section">
+        <div className="profile__base">
+          <div type="button" className="profile__overlay-container" onClick={onEditAvatar}>
+            <img src={userAvatar} className="profile__avatar"/>
           </div>
-          <button type="button" onClick={onAddPlace} aria-label="Кнопка добавления нового поста" className="profile__add-button"></button>
-        </section>
-        <section aria-label="Посты в профиле" className="elements root__section">
-          {props.children}
-        </section>
-      </main>
-    </>
+          <div className="profile__info">
+            <div className="profile__extra-info">
+              <h1 className="profile__title">{userName}</h1>
+              <button type="button" onClick={onEditProfile} aria-label="Кнопка редактирования профиля" className="profile__edit-button"></button>
+            </div>
+            <p className="profile__subtitle">{userDescription}</p>
+          </div>
+        </div>
+        <button type="button" onClick={onAddPlace} aria-label="Кнопка добавления нового поста" className="profile__add-button"></button>
+      </section>
+      <section aria-label="Посты в профиле" className="elements root__section">
+        {props.children}
+      </section>
+    </main>
   );
 }
 
