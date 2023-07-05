@@ -45,6 +45,7 @@ function App() {
   }, []);
 
   function handleCardClick(cardInfo) {
+    console.log(cardInfo)
     setImagePopupOpen(true);
     setSelectedCard(cardInfo);
   }
