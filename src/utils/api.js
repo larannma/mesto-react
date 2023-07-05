@@ -119,6 +119,10 @@ class Api {
     })
     .then(this._handleResponse);
   }
+
+  changeLikeCardStatus(cardId, likeStatus) {
+    
+  }
 }
 
 const api = new Api ({

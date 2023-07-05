@@ -24,7 +24,7 @@ function App() {
       const userInfoApi = {
         name: res.name,
         about: res.about,
-        id: res._id,
+        _id: res._id,
         avatar: res.avatar
       }
       setCurrentUser(userInfoApi);
@@ -35,10 +35,10 @@ function App() {
     api.getCards().then((res) => {
       const cardsApi = res.map((item) => ({
         name: item.name,
-        url: item.link,
+        link: item.link,
         likes: item.likes,
-        id: item._id,
-        owner: item.owner._id
+        _id: item._id,
+        owner: item.owner
       }));
       setCards(cardsApi);
     });
@@ -71,14 +71,18 @@ function App() {
 
   function handleCardLike(card) {
       const isLiked = card.likes.some(i => (
-        i._id === currentUser.id
+        i._id === currentUser._id
         ));
-      
-      // // Отправляем запрос в API и получаем обновлённые данные карточки
-      // api.changeLikeCardStatus(card.id, !isLiked).then((newCard) => {
-      //     setCards((state) => state.map((c) => c.id === card.id ? newCard : c));
-      // });
-      // console.log(isLiked)
+
+      if (!isLiked) {
+        api.putLike(currentUser, card._id).then((newCard) => {
+          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        })
+      } else {
+        api.deleteLike(currentUser, card._id).then((newCard) => {
+          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        })
+      }
   }
 
   return (
