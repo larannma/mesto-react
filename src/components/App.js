@@ -4,6 +4,7 @@ import Header from "./Header"
 import Footer from "./Footer";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api"
 import Card from "./Card";
@@ -45,7 +46,6 @@ function App() {
   }, []);
 
   function handleCardClick(cardInfo) {
-    console.log(cardInfo)
     setImagePopupOpen(true);
     setSelectedCard(cardInfo);
   }
@@ -86,6 +86,13 @@ function App() {
       }
   }
 
+  
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      setCards((state) => state.filter(c => c._id !== card._id));
+    })
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App root">
@@ -93,18 +100,12 @@ function App() {
           <Header logo={logo}/>
           <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}>
           {cards.map(item => (
-            <Card key={item._id} onCardClick={handleCardClick} onLikeClick={handleCardLike} {...item}/>
+            <Card key={item._id} onCardClick={handleCardClick} onLikeClick={handleCardLike} onCardDelete={handleCardDelete} {...item}/>
           ))}
           </Main>
           <Footer />
-          <PopupWithForm isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} title={"Редактировать профиль"} name={"profileInfo"} styleClass={"edit"}>
-            <input id="name-input" name="name" type="text" placeholder="Имя" className="popup__text popup__text_type_name" required minLength="2" maxLength="40"/>
-            <span className="name-input-error popup__text-error"></span>
-            <input id="interests-input" name="interests" type="text" placeholder="Деятельность" className="popup__text popup__text_type_interests" required minLength="2" maxLength="200"/>
-            <span className="interests-input-error popup__text-error"></span>
-            <button type="submit" className="popup__submit-btn">Сохранить</button>
-          </PopupWithForm>
-          <PopupWithForm isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} title={"Новое место"} name={"cardInfo"} styleClass={"add"}>
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
+          <PopupWithForm onSubmit={1} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} title={"Новое место"} name={"cardInfo"} styleClass={"add"}>
             <input id="cardName-input" name="name" type="text" placeholder="Название" className="popup__text popup__text_type_name" required minLength="2" maxLength="30"/>
             <span className="cardName-input-error popup__text-error"></span>
             <input id="photo-link-input" name="photo-link" type="url" placeholder="Ссылка на картинку" className="popup__text popup__text_type_photo-link" required/>
@@ -112,10 +113,10 @@ function App() {
             <button type="submit" className="popup__submit-btn">Создать</button>
           </PopupWithForm>
           <ImagePopup onClose={closeAllPopups} isOpen={isImagePopupOpen} card={selectedCard}/>
-          <PopupWithForm isOpen={false} onClose={closeAllPopups} title={"Вы уверены?"} name={"cardInfo"} styleClass={"confirm"}>
+          <PopupWithForm onSubmit={1} isOpen={false} onClose={closeAllPopups} title={"Вы уверены?"} name={"cardInfo"} styleClass={"confirm"}>
             <button type="submit" className="popup__submit-btn popup__confirm-btn">Да</button>
           </PopupWithForm>
-          <PopupWithForm isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} title={"Обновить аватар"} name={"cardInfo"} styleClass={"update"}>
+          <PopupWithForm onSubmit={1} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} title={"Обновить аватар"} name={"cardInfo"} styleClass={"update"}>
             <input id="update-profile-photo-input" name="photo-avatar-link" type="url" placeholder="Ссылка на аватар" className="popup__text popup__text_type_photo-avatar-link" required/>
             <span className="update-profile-photo-input-error popup__text-error"></span>
             <button type="submit" className="popup__submit-btn">Сохранить</button>
