@@ -83,11 +83,15 @@ function App() {
       if (!isLiked) {
         api.putLike(currentUser, card._id).then((newCard) => {
           setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-        })
+        }).catch((err => {
+          console.log(err)
+        }));
       } else {
         api.deleteLike(currentUser, card._id).then((newCard) => {
           setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-        })
+        }).catch((err => {
+          console.log(err)
+        }));
       }
   }
 
@@ -119,11 +123,11 @@ function App() {
 
   const onAddPlace = (data) => {
     api.postCard(data.placeName, data.placeLink).then((newCard) => {
-      setCards([newCard, ...cards]); 
+      setCards([newCard, ...cards]);
+      closeAllPopups();
     }).catch((err => {
       console.log(err)
     }));
-    closeAllPopups();
   }
 
   return (
@@ -133,13 +137,13 @@ function App() {
           <Header logo={logo}/>
           <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} cards={cards} onCardClick={handleCardClick} onLikeClick={handleCardLike} onCardDelete={handleCardDelete}/>
           <Footer />
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdate={handleUpdateUser}/>
-          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onSubmit={onAddPlace}/>
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdate={handleUpdateUser} buttonText={"Сохранить"}/>
+          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onSubmit={onAddPlace} buttonText={"Создать"}/>
           <ImagePopup onClose={closeAllPopups} isOpen={isImagePopupOpen} card={selectedCard}/>
           {/* <PopupWithForm onSubmit={1} isOpen={false} onClose={closeAllPopups} title={"Вы уверены?"} name={"cardInfo"} styleClass={"confirm"}>
             <button type="submit" className="popup__submit-btn popup__confirm-btn">Да</button>
           </PopupWithForm> */}
-          <EditAvatarPopup avatarPhotoRef={avatarPhotoRef} onSubmit={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+          <EditAvatarPopup avatarPhotoRef={avatarPhotoRef} onSubmit={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} buttonText={"Сохранить"}/>
         </div>
       </div>
     </CurrentUserContext.Provider>

@@ -1,9 +1,15 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({isOpen, onClose, onSubmit}) {
+function AddPlacePopup({isOpen, onClose, onSubmit, buttonText}) {
   const [placeName, setPlaceName] = React.useState("");
   const [placeLink, setPlaceLink] = React.useState("");
+
+  React.useEffect(() => {
+    setPlaceName('');
+    setPlaceLink('');
+  }, [isOpen]);
+
 
   function handlePlaceNameChange(e) {
     setPlaceName(e.target.value);
@@ -16,8 +22,6 @@ function AddPlacePopup({isOpen, onClose, onSubmit}) {
   function handleSubmit(e) {
     e.preventDefault();
     onSubmit({placeName, placeLink});
-    setPlaceName("");
-    setPlaceLink("");
   }
 
   return (
@@ -26,7 +30,7 @@ function AddPlacePopup({isOpen, onClose, onSubmit}) {
       <span className="cardName-input-error popup__text-error"></span>
       <input value={placeLink} onChange={handlePlaceLinkChange} id="photo-link-input" name="photo-link" type="url" placeholder="Ссылка на картинку" className="popup__text popup__text_type_photo-link" required/>
       <span className="photo-link-input-error popup__text-error"></span>
-      <button type="submit" className="popup__submit-btn">Создать</button>
+      <button type="submit" className="popup__submit-btn">{buttonText}</button>
   </PopupWithForm>
   );
 }
