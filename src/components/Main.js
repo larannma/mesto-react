@@ -1,7 +1,8 @@
 import React from "react";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import Card from "./Card";
 
-function Main ({onEditProfile, onAddPlace, onEditAvatar, ...props}) {
+function Main ({onEditProfile, onAddPlace, onEditAvatar, cards, onCardClick, onLikeClick, onCardDelete}) {
   const сurrentUser = React.useContext(CurrentUserContext);
 
   return (
@@ -9,7 +10,7 @@ function Main ({onEditProfile, onAddPlace, onEditAvatar, ...props}) {
       <section className="profile root__section">
         <div className="profile__base">
           <div type="button" className="profile__overlay-container" onClick={onEditAvatar}>
-            <img src={сurrentUser.avatar} className="profile__avatar"/>
+            <img src={сurrentUser.avatar} alt={CurrentUserContext.avatar} className="profile__avatar"/>
           </div>
           <div className="profile__info">
             <div className="profile__extra-info">
@@ -22,7 +23,9 @@ function Main ({onEditProfile, onAddPlace, onEditAvatar, ...props}) {
         <button type="button" onClick={onAddPlace} aria-label="Кнопка добавления нового поста" className="profile__add-button"></button>
       </section>
       <section aria-label="Посты в профиле" className="elements root__section">
-        {props.children}
+        {cards.map(item => (
+          <Card key={item._id} onCardClick={onCardClick} onLikeClick={onLikeClick} onCardDelete={onCardDelete} {...item}/>
+        ))}
       </section>
     </main>
   );
